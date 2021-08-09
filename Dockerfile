@@ -7,7 +7,7 @@ USER root
 RUN apt-get update && \
     apt-get install -y vim
 
-USER $NB_UID
+USER $NB_USER
 
 RUN conda update -n base conda && \
     conda update python && \
@@ -26,19 +26,6 @@ RUN \
     jupyter nbextensions_configurator disable --sys-prefix && \
     jupyter serverextension enable jupyter_nbextensions_configurator --sys-prefix && \
     \
-    # update JupyterLab (required for @jupyterlab/toc)
-    conda install -c conda-forge jupyterlab=2.2.0 && \
-    \
-    # add support for Matplotlib Magics
-    conda install -c conda-forge ipympl==0.5.3 && \
-    jupyter labextension install @jupyter-widgets/jupyterlab-manager jupyter-matplotlib@0.7.2 && \
-    \
-    # jupyter lab extensions
-    jupyter labextension install @jupyterlab/google-drive && \
-    jupyter labextension install @jupyterlab/toc --clean && \
-    jupyter lab build && \
-    pip install datascience && \
-    \
     # remove cache
     rm -rf ~/.cache/pip ~/.cache/matplotlib ~/.cache/yarn && \
     rm -rf /opt/conda/share/jupyter/lab/extensions/jupyter-matplotlib-0.7.1.tgz
@@ -47,20 +34,30 @@ RUN \
 RUN pip install nbgitpuller && \
     jupyter serverextension enable --py nbgitpuller --sys-prefix
 
-RUN conda install -c conda-forge nodejs && \
-    conda install -c conda-forge spacy && \
-    conda install --quiet -y nltk && \
-    conda install --quiet -y mplcursors && \
-    conda install --quiet -y pytest && \
-    conda install --quiet -y tweepy
+RUN \
+    pip install \ 
+        nodejs \
+        spacy \
+        nltk \
+        mplcursors \
+        pytest \
+        tweepy \
+        PTable \
+        pytest-custom-report \
+        ipympl \
+        datascience \
+        jupyterlab 
+    #conda install -c conda-forge nodejs && \
+    #conda install -c conda-forge spacy && \
+    #conda install --quiet -y nltk && \
+    #conda install --quiet -y mplcursors && \
+    #conda install --quiet -y pytest && \
+    #conda install --quiet -y tweepy
+ARG RPY2_CFFI_MODE=ABI
+# Install otter-grader 
+RUN pip install otter-grader==2.2.4
+RUN python -m pip install --upgrade pip
+RUN npm install crypto codemirror 
 
-RUN pip install PTable && \
-    pip install pytest-custom-report
-
-# Install otter-grader
-RUN pip install otter-grader==2.1.1
-
-RUN jupyter lab build && \
-    fix-permissions $CONDA_DIR && \
+RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-
