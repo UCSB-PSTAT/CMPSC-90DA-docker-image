@@ -1,6 +1,6 @@
 FROM dddlab/python-notebook:v20200331-df7ed42-94fdd01b492f
 
-LABEL maintainer="Patrick Windmiller <sysadmin@pstat.ucsb.edu>"
+LABEL maintainer="Vanessa De Leon <v_deleon@ucsb.edu>"
 
 USER root
 
@@ -33,7 +33,7 @@ RUN \
 #--- Install nbgitpuller
 RUN pip install nbgitpuller && \
     jupyter serverextension enable --py nbgitpuller --sys-prefix
-
+RUN python -m pip install --upgrade pip
 RUN \
     pip install \ 
         nodejs \
@@ -46,7 +46,8 @@ RUN \
         pytest-custom-report \
         ipympl \
         datascience \
-        jupyterlab 
+        jupyterlab \
+        otter-grader==2.2.5
     #conda install -c conda-forge nodejs && \
     #conda install -c conda-forge spacy && \
     #conda install --quiet -y nltk && \
@@ -55,8 +56,7 @@ RUN \
     #conda install --quiet -y tweepy
 ARG RPY2_CFFI_MODE=ABI
 # Install otter-grader 
-RUN pip install otter-grader==2.2.5
-RUN python -m pip install --upgrade pip
+RUN pip3 install -U jupyterlab
 RUN npm install crypto codemirror 
 
 RUN fix-permissions $CONDA_DIR && \
