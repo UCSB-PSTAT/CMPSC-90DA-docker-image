@@ -55,7 +55,7 @@ RUN \
     #conda install --quiet -y tweepy
 ARG RPY2_CFFI_MODE=ABI
 # Install otter-grader 
-RUN pip install otter-grader==2.2.4
+RUN pip install otter-grader==2.2.5
 RUN python -m pip install --upgrade pip
 RUN npm install crypto codemirror 
 
