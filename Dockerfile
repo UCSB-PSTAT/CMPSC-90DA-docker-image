@@ -34,6 +34,7 @@ RUN \
 RUN pip install nbgitpuller && \
     jupyter serverextension enable --py nbgitpuller --sys-prefix
 RUN python -m pip install --upgrade pip
+ARG RPY2_CFFI_MODE=ABI
 RUN \
     pip install \ 
         nodejs \
@@ -47,15 +48,18 @@ RUN \
         ipympl \
         datascience \
         jupyterlab \
-        otter-grader==2.2.5
+        otter-grader==2.2.5 \
+        jupyterlab_vim \
+        ipywebrtc \
+        jupytext --upgrade \
+        jupyter_bokeh \
+        jupyterlab-katex 
     #conda install -c conda-forge nodejs && \
     #conda install -c conda-forge spacy && \
     #conda install --quiet -y nltk && \
     #conda install --quiet -y mplcursors && \
     #conda install --quiet -y pytest && \
     #conda install --quiet -y tweepy
-ARG RPY2_CFFI_MODE=ABI
-# Install otter-grader 
 RUN pip3 install -U jupyterlab
 RUN npm install crypto codemirror 
 
