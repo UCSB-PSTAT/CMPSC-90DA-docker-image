@@ -28,7 +28,7 @@ RUN \
     \
     # remove cache
     rm -rf ~/.cache/pip ~/.cache/matplotlib ~/.cache/yarn && \
-    rm -rf /opt/conda/share/jupyter/lab/extensions/jupyter-matplotlib-0.7.1.tgz
+    rm -rf /opt/conda/share/jupyter/lab/extensions/*.tgz
 
 #--- Install nbgitpuller
 RUN pip install nbgitpuller && \
