@@ -61,7 +61,7 @@ RUN \
     #conda install --quiet -y pytest && \
     #conda install --quiet -y tweepy
 RUN pip3 install -U jupyterlab
-RUN npm install crypto codemirror 
+RUN npm install -g npm@latest 
 
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
