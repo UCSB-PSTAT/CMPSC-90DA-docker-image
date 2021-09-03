@@ -3,7 +3,8 @@ FROM dddlab/python-notebook:v20200331-df7ed42-94fdd01b492f
 LABEL maintainer="Vanessa De Leon <v_deleon@ucsb.edu>"
 
 USER root
-
+ENV NODE_PATH=/opt/conda/lib/node_modules
+ARG NODE_PATH=/opt/conda/lib/node_modules
 RUN apt-get update && \
     apt-get install -y vim
 
@@ -62,7 +63,7 @@ RUN \
     #conda install --quiet -y tweepy
 RUN pip3 install -U jupyterlab
 RUN npm install -g npm@latest 
-
+RUN npm install --prefix /opt/conda codemirror
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-    #
+    
