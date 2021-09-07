@@ -1,10 +1,10 @@
-FROM dddlab/python-notebook:v20200331-df7ed42-94fdd01b492f
+ARG BASE_IMAGE=jupyter/scipy-notebook:latest
+FROM $BASE_IMAGE
 
 LABEL maintainer="Vanessa De Leon <v_deleon@ucsb.edu>"
 
 USER root
-ENV NODE_PATH=/opt/conda/lib/node_modules
-ARG NODE_PATH=/opt/conda/lib/node_modules
+
 RUN apt-get update && \
     apt-get install -y vim
 
@@ -29,13 +29,12 @@ RUN \
     \
     # remove cache
     rm -rf ~/.cache/pip ~/.cache/matplotlib ~/.cache/yarn && \
-    rm -rf /opt/conda/share/jupyter/lab/extensions/*.tgz
+    rm -rf /opt/conda/share/jupyter/lab/extensions/jupyter-matplotlib-0.7.1.tgz
 
 #--- Install nbgitpuller
 RUN pip install nbgitpuller && \
     jupyter serverextension enable --py nbgitpuller --sys-prefix
-RUN python -m pip install --upgrade pip
-ARG RPY2_CFFI_MODE=ABI
+
 RUN \
     pip install \ 
         nodejs \
@@ -45,25 +44,22 @@ RUN \
         pytest \
         tweepy \
         PTable \
-        pytest-custom-report \
-        ipympl \
+        pytest-custom-report\ \
         datascience \
-        jupyterlab \
-        otter-grader==2.2.5 \
-        jupyterlab_vim \
-        ipywebrtc \
-        jupytext --upgrade \
-        jupyter_bokeh \
-        jupyterlab-katex 
+        jupyterlab 
     #conda install -c conda-forge nodejs && \
     #conda install -c conda-forge spacy && \
     #conda install --quiet -y nltk && \
     #conda install --quiet -y mplcursors && \
     #conda install --quiet -y pytest && \
     #conda install --quiet -y tweepy
-RUN pip3 install -U jupyterlab
-RUN npm install -g npm@latest 
-RUN npm install --prefix /opt/conda codemirror
+ARG RPY2_CFFI_MODE=ABI
+# Install otter-grader 
+RUN pip install otter-grader==2.2.4
+RUN python -m pip install --upgrade pip
+RUN npm install -g npm@latest
+RUN npm install -g codemirror
+
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
-    
+   
