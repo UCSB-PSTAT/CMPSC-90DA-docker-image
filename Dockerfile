@@ -9,7 +9,7 @@ RUN apt-get update && \
     apt-get install -y vim
 
 USER $NB_USER
-
+RUN python -m pip install --upgrade pip
 RUN conda update -n base conda && \
     conda update python && \
     pip install vdiff
@@ -56,10 +56,9 @@ RUN \
 ARG RPY2_CFFI_MODE=ABI
 # Install otter-grader 
 RUN pip install otter-grader==2.2.4
-RUN python -m pip install --upgrade pip
-RUN npm install -g npm@latest
-RUN npm install -g codemirror
 
+RUN npm install -g npm@latest codemirror
+RUN pip install pendulum
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
    
