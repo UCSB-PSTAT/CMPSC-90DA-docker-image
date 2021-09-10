@@ -58,7 +58,7 @@ ARG RPY2_CFFI_MODE=ABI
 RUN pip install otter-grader==2.2.4
 
 RUN npm install -g npm@latest codemirror
-RUN pip install flashtext
+
 RUN fix-permissions $CONDA_DIR && \
     fix-permissions /home/$NB_USER
    
