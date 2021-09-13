@@ -45,6 +45,7 @@ RUN \
         tweepy \
         PTable \
         pytest-custom-report \
+        otter-grader==2.2.5 \
         datascience \
         jupyterlab 
     #conda install -c conda-forge nodejs && \
@@ -54,8 +55,6 @@ RUN \
     #conda install --quiet -y pytest && \
     #conda install --quiet -y tweepy
 ARG RPY2_CFFI_MODE=ABI
-# Install otter-grader 
-RUN pip install otter-grader==2.2.5
 
 RUN npm install -g npm@latest codemirror
 
